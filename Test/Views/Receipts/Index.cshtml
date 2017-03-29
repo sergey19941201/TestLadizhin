@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Ингридиенты</h2>
+<h2>Рецепты</h2>
 
 <p>
     @Html.ActionLink("Добавить рецепт", "Create")
@@ -18,6 +18,9 @@
         <th>
             Ингридиенты
         </th>
+        <th>
+            Количество ингридиентов
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -27,14 +30,11 @@
                 @Html.DisplayFor(modelItem => item.ReceiptName)
             </td>
             <td>
-                <div style="overflow-y: scroll; height: 60px;">
-                    @foreach (var item1 in item.ReceiptName)
-                    {
-                        <div>@Html.DisplayFor(modelItem => item.Ingridient_Id)</div>
-                    }
-                </div>
+                @Html.DisplayFor(modelItem => item.Ingridients.IngridientName)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingridient_Quantity)
+            </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Receipt_Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Receipt_Id }) |

@@ -17,7 +17,8 @@ namespace Test.Controllers
         // GET: Receipts
         public ActionResult Index()
         {
-            return View(db.Receipts.ToList());
+            var receipts = db.Receipts.Include(d => d.Ingridients);
+            return View(receipts.ToList());
         }
 
         // GET: Receipts/Details/5
@@ -38,7 +39,7 @@ namespace Test.Controllers
         // GET: Receipts/Create
         public ActionResult Create()
         {
-            ViewBag.Ingridient_Id = new SelectList(db.Ingridients, "Ingridient_Id", "IngridientName");
+            ViewBag.Ingridient_Id = new SelectList(db.Ingridients, "Ingridient_Id", "IngridientName", "Ingridient_Quantity");
             return View();
         }
 
@@ -47,7 +48,7 @@ namespace Test.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Receipt_Id,ReceiptName")] Receipts receipts)
+        public ActionResult Create([Bind(Include = "Receipt_Id,ReceiptName,Ingridient_Id, Ingridient_Quantity")] Receipts receipts)
         {
             if (ModelState.IsValid)
             {
@@ -56,6 +57,7 @@ namespace Test.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Ingridient_Id = new SelectList(db.Ingridients, "Ingridient_Id", "IngridientName", "Ingridient_Quantity");
             return View(receipts);
         }
 
@@ -71,6 +73,7 @@ namespace Test.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Ingridient_Id = new SelectList(db.Ingridients, "Ingridient_Id", "IngridientName", "Ingridient_Quantity");
             return View(receipts);
         }
 
@@ -79,7 +82,7 @@ namespace Test.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Receipt_Id,ReceiptName")] Receipts receipts)
+        public ActionResult Edit([Bind(Include = "Receipt_Id,ReceiptName,Ingridient_Id, Ingridient_Quantity")] Receipts receipts)
         {
             if (ModelState.IsValid)
             {
@@ -87,6 +90,7 @@ namespace Test.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Ingridient_Id = new SelectList(db.Ingridients, "Ingridient_Id", "IngridientName", "Ingridient_Quantity");
             return View(receipts);
         }
 
@@ -102,6 +106,7 @@ namespace Test.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Ingridient_Id = new SelectList(db.Ingridients, "Ingridient_Id", "IngridientName", "Ingridient_Quantity");
             return View(receipts);
         }
 

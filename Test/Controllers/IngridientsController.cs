@@ -52,7 +52,7 @@ namespace Test.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Ingridient_Id,IngridientName,Receipt_Id,Quantity")] Ingridients ingridients)
+        public ActionResult Create([Bind(Include = "Ingridient_Id,IngridientName,Quantity")] Ingridients ingridients)
         {
             if (ModelState.IsValid)
             {
