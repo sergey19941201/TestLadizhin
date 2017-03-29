@@ -1,21 +1,23 @@
 ﻿@model IEnumerable<Test.Models.Receipts>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Рецепты";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Ингридиенты</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить рецепт", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ReceiptName)
+            Рецепт
         </th>
-        <th></th>
+        <th>
+            Ингридиенты
+        </th>
     </tr>
 
     @foreach (var item in Model)

@@ -1,21 +1,21 @@
 ﻿@model IEnumerable<Test.Models.Categories>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Блюда по категориям";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
-
+<h2>Категории блюд</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить категорию блюда", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CategoryName)
+            Категория
         </th>
-        <th></th>
+        <th>
+            Блюда
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -23,6 +23,15 @@
         <td>
             @Html.DisplayFor(modelItem => item.CategoryName)
         </td>
+        <td>
+            <div style="overflow-y: scroll; height: 60px;">
+                @foreach (var item1 in item.Dishes)
+                {
+                    <div>@Html.DisplayFor(modelItem => item1.DishName)</div>
+                }
+            </div>
+        </td>
+
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Category_Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Category_Id }) |
