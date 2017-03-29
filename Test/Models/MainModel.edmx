@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Category_Id" />
+          </Key>
+          <Property Name="Category_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Dishes">
+          <Key>
+            <PropertyRef Name="Dish_Id" />
+          </Key>
+          <Property Name="Dish_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DishName" Type="nvarchar(max)" />
+          <Property Name="Category_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Ingridients">
+          <Key>
+            <PropertyRef Name="Ingridient_Id" />
+          </Key>
+          <Property Name="Ingridient_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IngridientName" Type="nvarchar(max)" />
+          <Property Name="Receipt_Id" Type="int" />
+          <Property Name="Quantity" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Receipts">
+          <Key>
+            <PropertyRef Name="Receipt_Id" />
+          </Key>
+          <Property Name="Receipt_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReceiptName" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Dishes_ToTable">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Dishes" Type="Self.Dishes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Category_Id" />
+            </Principal>
+            <Dependent Role="Dishes">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingridients_ToTable">
+          <End Role="Receipts" Type="Self.Receipts" Multiplicity="0..1" />
+          <End Role="Ingridients" Type="Self.Ingridients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receipts">
+              <PropertyRef Name="Receipt_Id" />
+            </Principal>
+            <Dependent Role="Ingridients">
+              <PropertyRef Name="Receipt_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dishes" EntityType="Self.Dishes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ingridients" EntityType="Self.Ingridients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Receipts" EntityType="Self.Receipts" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Dishes_ToTable" Association="Self.FK_Dishes_ToTable">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Dishes" EntitySet="Dishes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingridients_ToTable" Association="Self.FK_Ingridients_ToTable">
+            <End Role="Receipts" EntitySet="Receipts" />
+            <End Role="Ingridients" EntitySet="Ingridients" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Category_Id" />
+          </Key>
+          <Property Name="Category_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dishes" Relationship="Self.FK_Dishes_ToTable" FromRole="Categories" ToRole="Dishes" />
+        </EntityType>
+        <EntityType Name="Dishes">
+          <Key>
+            <PropertyRef Name="Dish_Id" />
+          </Key>
+          <Property Name="Dish_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DishName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category_Id" Type="Int32" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_Dishes_ToTable" FromRole="Dishes" ToRole="Categories" />
+        </EntityType>
+        <EntityType Name="Ingridients">
+          <Key>
+            <PropertyRef Name="Ingridient_Id" />
+          </Key>
+          <Property Name="Ingridient_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IngridientName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Receipt_Id" Type="Int32" />
+          <NavigationProperty Name="Receipts" Relationship="Self.FK_Ingridients_ToTable" FromRole="Ingridients" ToRole="Receipts" />
+          <Property Name="Quantity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Receipts">
+          <Key>
+            <PropertyRef Name="Receipt_Id" />
+          </Key>
+          <Property Name="Receipt_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReceiptName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ingridients" Relationship="Self.FK_Ingridients_ToTable" FromRole="Receipts" ToRole="Ingridients" />
+        </EntityType>
+        <Association Name="FK_Dishes_ToTable">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Dishes" Type="Self.Dishes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Category_Id" />
+            </Principal>
+            <Dependent Role="Dishes">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingridients_ToTable">
+          <End Role="Receipts" Type="Self.Receipts" Multiplicity="0..1" />
+          <End Role="Ingridients" Type="Self.Ingridients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receipts">
+              <PropertyRef Name="Receipt_Id" />
+            </Principal>
+            <Dependent Role="Ingridients">
+              <PropertyRef Name="Receipt_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Categories" />
+          <EntitySet Name="Dishes" EntityType="Self.Dishes" />
+          <EntitySet Name="Ingridients" EntityType="Self.Ingridients" />
+          <EntitySet Name="Receipts" EntityType="Self.Receipts" />
+          <AssociationSet Name="FK_Dishes_ToTable" Association="Self.FK_Dishes_ToTable">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Dishes" EntitySet="Dishes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingridients_ToTable" Association="Self.FK_Ingridients_ToTable">
+            <End Role="Receipts" EntitySet="Receipts" />
+            <End Role="Ingridients" EntitySet="Ingridients" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="Model.Categories">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dishes">
+            <EntityTypeMapping TypeName="Model.Dishes">
+              <MappingFragment StoreEntitySet="Dishes">
+                <ScalarProperty Name="Dish_Id" ColumnName="Dish_Id" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ingridients">
+            <EntityTypeMapping TypeName="Model.Ingridients">
+              <MappingFragment StoreEntitySet="Ingridients">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Ingridient_Id" ColumnName="Ingridient_Id" />
+                <ScalarProperty Name="IngridientName" ColumnName="IngridientName" />
+                <ScalarProperty Name="Receipt_Id" ColumnName="Receipt_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receipts">
+            <EntityTypeMapping TypeName="Model.Receipts">
+              <MappingFragment StoreEntitySet="Receipts">
+                <ScalarProperty Name="Receipt_Id" ColumnName="Receipt_Id" />
+                <ScalarProperty Name="ReceiptName" ColumnName="ReceiptName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

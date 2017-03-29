@@ -1,0 +1,35 @@
+﻿@model Test.Models.Ingridients
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ingridients</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Receipts.ReceiptName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Receipts.ReceiptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IngridientName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IngridientName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Ingridient_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

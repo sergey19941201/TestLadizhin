@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Test.Models.Receipts>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceiptName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiptName)
+            </td>
+            <td>
+                <div style="overflow-y: scroll; height: 60px;">
+                    @foreach (var item1 in item.Ingridients)
+                    {
+                        <div>@Html.DisplayFor(modelItem => item1.IngridientName)</div>
+                    }
+                </div>
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Receipt_Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Receipt_Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Receipt_Id })
+            </td>
+        </tr>
+    }
+
+</table>
