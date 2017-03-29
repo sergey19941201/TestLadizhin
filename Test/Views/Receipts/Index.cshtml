@@ -28,9 +28,9 @@
             </td>
             <td>
                 <div style="overflow-y: scroll; height: 60px;">
-                    @foreach (var item1 in item.Ingridients)
+                    @foreach (var item1 in item.ReceiptName)
                     {
-                        <div>@Html.DisplayFor(modelItem => item1.IngridientName)</div>
+                        <div>@Html.DisplayFor(modelItem => item.Ingridient_Id)</div>
                     }
                 </div>
             </td>

@@ -24,18 +24,9 @@
             @Html.DisplayFor(modelItem => item.CategoryName)
         </td>
         <td>
-            <div style="overflow-y: scroll; height: 60px;">
-                @foreach (var item1 in item.Dishes)
-                {
-                    <div>@Html.DisplayFor(modelItem => item1.DishName)</div>
-                }
-            </div>
-        </td>
-
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Category_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Category_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Category_Id })
+            @Html.ActionLink("Edit", "Edit", new {id = item.Category_Id}) |
+            @Html.ActionLink("Details", "Details", new {id = item.Category_Id}) |
+            @Html.ActionLink("Delete", "Delete", new {id = item.Category_Id})
         </td>
     </tr>
 }

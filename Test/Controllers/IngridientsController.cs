@@ -41,7 +41,9 @@ namespace Test.Controllers
         // GET: Ingridients/Create
         public ActionResult Create()
         {
-            ViewBag.Receipt_Id = new SelectList(db.Receipts, "Receipt_Id", "ReceiptName");
+            //ViewBag.Receipt_Id = new SelectList(db.Receipts, "Receipt_Id", "ReceiptName");
+
+            //ViewBag.Ingridient_Id = new SelectList(db.Receipts, "Ingridient_Id", "IngridientName");
             return View();
         }
 
@@ -59,7 +61,6 @@ namespace Test.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Receipt_Id = new SelectList(db.Receipts, "Receipt_Id", "ReceiptName", ingridients.Receipt_Id);
             return View(ingridients);
         }
 
@@ -75,7 +76,6 @@ namespace Test.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Receipt_Id = new SelectList(db.Receipts, "Receipt_Id", "ReceiptName", ingridients.Receipt_Id);
             return View(ingridients);
         }
 
@@ -84,7 +84,7 @@ namespace Test.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Ingridient_Id,IngridientName,Receipt_Id")] Ingridients ingridients)
+        public ActionResult Edit([Bind(Include = "Ingridient_Id,IngridientName,Receipt_Id,Quantity")] Ingridients ingridients)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace Test.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Receipt_Id = new SelectList(db.Receipts, "Receipt_Id", "ReceiptName", ingridients.Receipt_Id);
+            //ViewBag.Receipt_Id = new SelectList(db.Receipts, "Receipt_Id", "ReceiptName", ingridients.Receipt_Id);
             return View(ingridients);
         }
 

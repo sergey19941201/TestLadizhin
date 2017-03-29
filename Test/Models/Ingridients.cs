@@ -7,20 +7,26 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Test.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Ingridients
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Ingridients()
+        {
+            this.Receipts = new HashSet<Receipts>();
+        }
         [Key]
         public int Ingridient_Id { get; set; }
         public string IngridientName { get; set; }
-        public Nullable<int> Receipt_Id { get; set; }
         public string Quantity { get; set; }
     
-        public virtual Receipts Receipts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Receipts> Receipts { get; set; }
     }
 }

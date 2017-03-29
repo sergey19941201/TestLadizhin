@@ -19,6 +19,7 @@
           <Property Name="Dish_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DishName" Type="nvarchar(max)" />
           <Property Name="Category_Id" Type="int" />
+          <Property Name="Receipt_Id" Type="int" />
         </EntityType>
         <EntityType Name="Ingridients">
           <Key>
@@ -26,7 +27,6 @@
           </Key>
           <Property Name="Ingridient_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IngridientName" Type="nvarchar(max)" />
-          <Property Name="Receipt_Id" Type="int" />
           <Property Name="Quantity" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Receipts">
@@ -35,6 +35,8 @@
           </Key>
           <Property Name="Receipt_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ReceiptName" Type="nvarchar(max)" />
+          <Property Name="Ingridient_Id" Type="int" />
+          <Property Name="Ingridient_Quantity" Type="int" />
         </EntityType>
         <Association Name="FK_Dishes_ToTable">
           <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
@@ -48,15 +50,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Ingridients_ToTable">
+        <Association Name="FK_Dishes_ToTable_1">
           <End Role="Receipts" Type="Self.Receipts" Multiplicity="0..1" />
-          <End Role="Ingridients" Type="Self.Ingridients" Multiplicity="*" />
+          <End Role="Dishes" Type="Self.Dishes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Receipts">
               <PropertyRef Name="Receipt_Id" />
             </Principal>
-            <Dependent Role="Ingridients">
+            <Dependent Role="Dishes">
               <PropertyRef Name="Receipt_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipts_ToTable">
+          <End Role="Ingridients" Type="Self.Ingridients" Multiplicity="0..1" />
+          <End Role="Receipts" Type="Self.Receipts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingridients">
+              <PropertyRef Name="Ingridient_Id" />
+            </Principal>
+            <Dependent Role="Receipts">
+              <PropertyRef Name="Ingridient_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -69,22 +83,44 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Dishes" EntitySet="Dishes" />
           </AssociationSet>
-          <AssociationSet Name="FK_Ingridients_ToTable" Association="Self.FK_Ingridients_ToTable">
+          <AssociationSet Name="FK_Dishes_ToTable_1" Association="Self.FK_Dishes_ToTable_1">
             <End Role="Receipts" EntitySet="Receipts" />
+            <End Role="Dishes" EntitySet="Dishes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipts_ToTable" Association="Self.FK_Receipts_ToTable">
             <End Role="Ingridients" EntitySet="Ingridients" />
+            <End Role="Receipts" EntitySet="Receipts" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Model.Categories" />
+          <EntitySet Name="Dishes" EntityType="Model.Dishes" />
+          <EntitySet Name="Ingridients" EntityType="Model.Ingridients" />
+          <EntitySet Name="Receipts" EntityType="Model.Receipts" />
+          <AssociationSet Name="FK_Dishes_ToTable" Association="Model.FK_Dishes_ToTable">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Dishes" EntitySet="Dishes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dishes_ToTable_1" Association="Model.FK_Dishes_ToTable_1">
+            <End Role="Receipts" EntitySet="Receipts" />
+            <End Role="Dishes" EntitySet="Dishes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipts_ToTable" Association="Model.FK_Receipts_ToTable">
+            <End Role="Ingridients" EntitySet="Ingridients" />
+            <End Role="Receipts" EntitySet="Receipts" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="Category_Id" />
           </Key>
           <Property Name="Category_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Dishes" Relationship="Self.FK_Dishes_ToTable" FromRole="Categories" ToRole="Dishes" />
+          <NavigationProperty Name="Dishes" Relationship="Model.FK_Dishes_ToTable" FromRole="Categories" ToRole="Dishes" />
         </EntityType>
         <EntityType Name="Dishes">
           <Key>
@@ -93,7 +129,9 @@
           <Property Name="Dish_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DishName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Category_Id" Type="Int32" />
-          <NavigationProperty Name="Categories" Relationship="Self.FK_Dishes_ToTable" FromRole="Dishes" ToRole="Categories" />
+          <Property Name="Receipt_Id" Type="Int32" />
+          <NavigationProperty Name="Categories" Relationship="Model.FK_Dishes_ToTable" FromRole="Dishes" ToRole="Categories" />
+          <NavigationProperty Name="Receipts" Relationship="Model.FK_Dishes_ToTable_1" FromRole="Dishes" ToRole="Receipts" />
         </EntityType>
         <EntityType Name="Ingridients">
           <Key>
@@ -101,9 +139,8 @@
           </Key>
           <Property Name="Ingridient_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IngridientName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Receipt_Id" Type="Int32" />
-          <NavigationProperty Name="Receipts" Relationship="Self.FK_Ingridients_ToTable" FromRole="Ingridients" ToRole="Receipts" />
           <Property Name="Quantity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Receipts" Relationship="Model.FK_Receipts_ToTable" FromRole="Ingridients" ToRole="Receipts" />
         </EntityType>
         <EntityType Name="Receipts">
           <Key>
@@ -111,11 +148,14 @@
           </Key>
           <Property Name="Receipt_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ReceiptName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Ingridients" Relationship="Self.FK_Ingridients_ToTable" FromRole="Receipts" ToRole="Ingridients" />
+          <Property Name="Ingridient_Id" Type="Int32" />
+          <Property Name="Ingridient_Quantity" Type="Int32" />
+          <NavigationProperty Name="Dishes" Relationship="Model.FK_Dishes_ToTable_1" FromRole="Receipts" ToRole="Dishes" />
+          <NavigationProperty Name="Ingridients" Relationship="Model.FK_Receipts_ToTable" FromRole="Receipts" ToRole="Ingridients" />
         </EntityType>
         <Association Name="FK_Dishes_ToTable">
-          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
-          <End Role="Dishes" Type="Self.Dishes" Multiplicity="*" />
+          <End Type="Model.Categories" Role="Categories" Multiplicity="0..1" />
+          <End Type="Model.Dishes" Role="Dishes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
               <PropertyRef Name="Category_Id" />
@@ -125,33 +165,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Ingridients_ToTable">
-          <End Role="Receipts" Type="Self.Receipts" Multiplicity="0..1" />
-          <End Role="Ingridients" Type="Self.Ingridients" Multiplicity="*" />
+        <Association Name="FK_Dishes_ToTable_1">
+          <End Type="Model.Receipts" Role="Receipts" Multiplicity="0..1" />
+          <End Type="Model.Dishes" Role="Dishes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Receipts">
               <PropertyRef Name="Receipt_Id" />
             </Principal>
-            <Dependent Role="Ingridients">
+            <Dependent Role="Dishes">
               <PropertyRef Name="Receipt_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Categories" EntityType="Self.Categories" />
-          <EntitySet Name="Dishes" EntityType="Self.Dishes" />
-          <EntitySet Name="Ingridients" EntityType="Self.Ingridients" />
-          <EntitySet Name="Receipts" EntityType="Self.Receipts" />
-          <AssociationSet Name="FK_Dishes_ToTable" Association="Self.FK_Dishes_ToTable">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Dishes" EntitySet="Dishes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Ingridients_ToTable" Association="Self.FK_Ingridients_ToTable">
-            <End Role="Receipts" EntitySet="Receipts" />
-            <End Role="Ingridients" EntitySet="Ingridients" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        <Association Name="FK_Receipts_ToTable">
+          <End Type="Model.Ingridients" Role="Ingridients" Multiplicity="0..1" />
+          <End Type="Model.Receipts" Role="Receipts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingridients">
+              <PropertyRef Name="Ingridient_Id" />
+            </Principal>
+            <Dependent Role="Receipts">
+              <PropertyRef Name="Ingridient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -160,17 +198,18 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="Model.Categories">
               <MappingFragment StoreEntitySet="Categories">
-                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Dishes">
             <EntityTypeMapping TypeName="Model.Dishes">
               <MappingFragment StoreEntitySet="Dishes">
-                <ScalarProperty Name="Dish_Id" ColumnName="Dish_Id" />
-                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="Receipt_Id" ColumnName="Receipt_Id" />
                 <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="Dish_Id" ColumnName="Dish_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -178,17 +217,18 @@
             <EntityTypeMapping TypeName="Model.Ingridients">
               <MappingFragment StoreEntitySet="Ingridients">
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Ingridient_Id" ColumnName="Ingridient_Id" />
                 <ScalarProperty Name="IngridientName" ColumnName="IngridientName" />
-                <ScalarProperty Name="Receipt_Id" ColumnName="Receipt_Id" />
+                <ScalarProperty Name="Ingridient_Id" ColumnName="Ingridient_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Receipts">
             <EntityTypeMapping TypeName="Model.Receipts">
               <MappingFragment StoreEntitySet="Receipts">
-                <ScalarProperty Name="Receipt_Id" ColumnName="Receipt_Id" />
+                <ScalarProperty Name="Ingridient_Quantity" ColumnName="Ingridient_Quantity" />
+                <ScalarProperty Name="Ingridient_Id" ColumnName="Ingridient_Id" />
                 <ScalarProperty Name="ReceiptName" ColumnName="ReceiptName" />
+                <ScalarProperty Name="Receipt_Id" ColumnName="Receipt_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

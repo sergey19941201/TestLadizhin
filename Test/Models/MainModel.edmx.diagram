@@ -5,12 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="7b0f0df28ba84ddaa1dc7e6b7e4772e3" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.Categories" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Dishes" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Ingridients" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Receipts" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="Model.FK_Dishes_ToTable" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_Ingridients_ToTable" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.Categories" Width="1.5" PointX="9.125" PointY="1.375" />
+        <EntityTypeShape EntityType="Model.Dishes" Width="1.5" PointX="6.125" PointY="0.625" />
+        <EntityTypeShape EntityType="Model.Ingridients" Width="1.5" PointX="1.625" PointY="0.875" />
+        <EntityTypeShape EntityType="Model.Receipts" Width="1.5" PointX="3.875" PointY="0.625" />
+        <AssociationConnector Association="Model.FK_Dishes_ToTable" />
+        <AssociationConnector Association="Model.FK_Dishes_ToTable_1" />
+        <AssociationConnector Association="Model.FK_Receipts_ToTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

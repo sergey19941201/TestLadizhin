@@ -38,6 +38,7 @@ namespace Test.Controllers
         // GET: Receipts/Create
         public ActionResult Create()
         {
+            ViewBag.Ingridient_Id = new SelectList(db.Ingridients, "Ingridient_Id", "IngridientName");
             return View();
         }
 
